@@ -1,4 +1,6 @@
 <script>
+	import Button from '../UI/Button.svelte';
+
 	let toDo = '';
 	let toDoArr = ['get a job', 'mow the yard', 'wash the car', 'grocery'];
 	let todoList = [];
@@ -9,19 +11,25 @@
 	}
 
 	function del(todoItems) {
-        console.log(todoList);
-		toDoArr = toDoArr.filter((value, i) => todoItems.indexOf(i) == -1)
-        todoList = []
-
+		console.log(todoList);
+		toDoArr = toDoArr.filter((value, i) => todoItems.indexOf(i) == -1);
+		todoList = [];
 	}
 </script>
 
 <main>
-	<form on:submit|preventDefault={checkButton}>
-		<label for="name">Things To do:</label>
-		<input type="text" bind:value={toDo} />
-		<button>Add to list</button>
-	</form>
+	<h1 id="title">Todo List</h1>
+	<div class="container">
+		<div id="label">
+			<form on:submit|preventDefault={checkButton}>
+				<label for="name" />
+				<input id="input-field" type="text" bind:value={toDo} placeholder="thing to do" />
+			</form>
+		</div>
+		<div class="button">
+			<Button>Add to list</Button>
+		</div>
+	</div>
 	<form on:submit|preventDefault={del(todoList)}>
 		{#each toDoArr as todo, i}
 			<ul>
@@ -38,5 +46,23 @@
 	main {
 		margin: 5rem 15rem;
 		font-size: 2em;
+	}
+	#title {
+		text-align: center;
+	}
+	#input-field {
+		width: 15rem;
+		border-radius: 1.5rem;
+		padding: 1rem;
+		width: 18rem;
+	}
+	.container {
+		display: flex;
+		justify-content: center;
+	}
+	#label {
+		margin-right: 3rem;
+		height: 1rem;
+		
 	}
 </style>
