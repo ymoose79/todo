@@ -25,7 +25,7 @@
 <main>
 	<h1 id="title">Todo List</h1>
 	<div class="container">
-		<div id="label" transition:fade>
+		<div id="label" >
 			<form on:submit|preventDefault={checkButton}>
 				<label for="name" />
 				<input id="input-field" type="text" bind:value={toDo} placeholder="thing to do" />
