@@ -1,6 +1,26 @@
 <script>
 	import Button from '../UI/Button.svelte';
+	import { quintOut } from 'svelte/easing';
+	import { crossfade } from 'svelte/transition';
+	import { flip }  from 'svelte/animate';
 
+	const [send, receive] = crossfade({
+		duration: d => Math.sqrt(d * 200),
+
+		fallback(node, params) {
+			const style = getComputedStyle(node);
+			const transform = style.transform === 'none' ? '' : style.transform;
+
+			return {
+				duration: 600,
+				easing: quintOut,
+				css: t => `
+					transform: ${transform} scale(${t});
+					opacity: ${t}
+				`
+			};
+		}
+	});
 
 	let uid = 1;
 
@@ -51,7 +71,10 @@
         {#each toDoArr as todo, i}
             <ul>
                 <input type="checkbox" bind:group={todoList} value={i} />
-                <label for="todo">{todo.description} </label>
+                <label for="todo"
+				in:receive="{{key: todo.uid}}"
+				out:send="{{key: todo.uid}}"
+				>{todo.description} </label>
             </ul>
         {/each}
 		<h1>{description}</h1>
