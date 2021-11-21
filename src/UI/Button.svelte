@@ -1,6 +1,6 @@
 
 <!-- HTML !-->
-<button class="confirm" role="button" mode="delete">Confirm</button>
+<button class="confirm" role="button" mode="delete" on:click>Confirm</button>
 
 <style>
 .confirm {

@@ -27,7 +27,7 @@
 			</form>
 		</div>
 		<div class="button">
-			<Button>Add to list</Button>
+			<Button on:click={checkButton}>Add to list</Button>
 		</div>
 	</div>
 	<form on:submit|preventDefault={del(todoList)}>
@@ -55,6 +55,14 @@
 		border-radius: 1.5rem;
 		padding: 1rem;
 		width: 18rem;
+		border: .125rem solid rgba(179, 132, 201, .84);
+		-webkit-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1), 0 0 16px rgba(0, 0, 0, 0.1);
+		-moz-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1), 0 0 16px rgba(0, 0, 0, 0.1);
+		box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1), 0 0 16px rgba(0, 0, 0, 0.1);
+		padding: 15px;
+		background: rgba(255, 255, 255, 0.5);
+		margin: 0 0 10px 0;
+
 	}
 	.container {
 		display: flex;
