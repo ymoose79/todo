@@ -1,11 +1,16 @@
 <script>
 	import Button from '../UI/Button.svelte';
+	import { fade } from 'svelte/transition';
+
 
 	let toDo = '';
 	let toDoArr = ['get a job', 'mow the yard', 'wash the car', 'grocery'];
 	let todoList = [];
 
 	function checkButton() {
+		if (toDo === ''){
+			return
+		}
 		toDoArr = [toDo, ...toDoArr];
 		toDo = '';
 	}
@@ -20,16 +25,17 @@
 <main>
 	<h1 id="title">Todo List</h1>
 	<div class="container">
-		<div id="label">
+		<div id="label" transition:fade>
 			<form on:submit|preventDefault={checkButton}>
 				<label for="name" />
 				<input id="input-field" type="text" bind:value={toDo} placeholder="thing to do" />
 			</form>
 		</div>
 		<div class="button">
-			<Button on:click={checkButton}>Add to list</Button>
+			<Button mode="confirm" on:click={checkButton}>Add to list</Button>
 		</div>
 	</div>
+	<div class="container">
 	<form on:submit|preventDefault={del(todoList)}>
 		{#each toDoArr as todo, i}
 			<ul>
@@ -38,8 +44,9 @@
 			</ul>
 		{/each}
 		<h1>{toDo}</h1>
-		<button>delete item</button>
+		<Button mode="delete">Delete checked Items</Button>
 	</form>
+</div>
 </main>
 
 <style>
