@@ -26,10 +26,10 @@
 
 	let description = '';
 	let toDoArr = [
-		{ uid: uid++, description: 'get a job' },
-		{ uid: uid++, description: 'mow the yard' },
-		{ uid: uid++, description: 'wash the car' },
-		{ uid: uid++, description: 'grocery' }
+		{ id: uid++, description: 'get a job' },
+		{ id: uid++, description: 'mow the yard' },
+		{ id: uid++, description: 'wash the car' },
+		{ id: uid++, description: 'grocery' }
 	];
 	let todoList = [];
 
@@ -38,7 +38,7 @@
 			return;
 		}
 		const newTodo = {
-			uid: uid++,
+			id: uid++,
 			description: description
 		}
 		toDoArr = [newTodo, ...toDoArr];
@@ -58,7 +58,9 @@
 	<div class="container">
 		<div id="left">
 			<form on:submit|preventDefault={checkButton}>
-				<label for="name" />
+				<label for="name"
+				in:receive="{{key: description}}"
+				out:send="{{key: description}}" />
 				<input id="input-field" type="text" bind:value={description} placeholder="thing to do" />
 			</form>
 		</div>
@@ -68,12 +70,12 @@
 	</div>
 	<div class="container">
 		<form on:submit|preventDefault={del(todoList)}>
-        {#each toDoArr as todo, i}
+        {#each toDoArr as todo,i (todo.id)}
             <ul>
                 <input type="checkbox" bind:group={todoList} value={i} />
                 <label for="todo"
-				in:receive="{{key: todo.uid}}"
-				out:send="{{key: todo.uid}}"
+				in:receive="{{key: todo.id}}"
+				out:send="{{key: todo.id}}"
 				>{todo.description} </label>
             </ul>
         {/each}
