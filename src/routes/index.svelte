@@ -1,11 +1,10 @@
 <script>
 	import Button from '../UI/Button.svelte';
 	import { quintOut } from 'svelte/easing';
-	import { crossfade } from 'svelte/transition';
-	import { flip }  from 'svelte/animate';
+	import { crossfade, fade } from 'svelte/transition';
 
 	const [send, receive] = crossfade({
-		duration: d => Math.sqrt(d * 200),
+		duration: (d) => Math.sqrt(d * 200),
 
 		fallback(node, params) {
 			const style = getComputedStyle(node);
@@ -14,7 +13,7 @@
 			return {
 				duration: 600,
 				easing: quintOut,
-				css: t => `
+				css: (t) => `
 					transform: ${transform} scale(${t});
 					opacity: ${t}
 				`
@@ -40,7 +39,7 @@
 		const newTodo = {
 			id: uid++,
 			description: description
-		}
+		};
 		toDoArr = [newTodo, ...toDoArr];
 		console.log(toDoArr);
 		description = '';
@@ -58,10 +57,13 @@
 	<div class="container">
 		<div id="left">
 			<form on:submit|preventDefault={checkButton}>
-				<label for="name"
-				in:receive="{{key: description}}"
-				out:send="{{key: description}}" />
-				<input id="input-field" type="text" bind:value={description} placeholder="thing to do" />
+				<label for="name" />
+				<input
+					id="input-field"
+					type="text"
+					bind:value={description}
+					placeholder="thing to do"
+				/>
 			</form>
 		</div>
 		<div class="right">
@@ -70,19 +72,18 @@
 	</div>
 	<div class="container">
 		<form on:submit|preventDefault={del(todoList)}>
-        {#each toDoArr as todo,i (todo.id)}
-            <ul>
-                <input type="checkbox" bind:group={todoList} value={i} />
-                <label for="todo"
-				in:receive="{{key: todo.id}}"
-				out:send="{{key: todo.id}}"
-				>{todo.description} </label>
-            </ul>
-        {/each}
-		<h1>{description}</h1>
-		<Button mode="delete">Delete items</Button>
-	</form>
-</div>
+			{#each toDoArr as todo, i (todo.id)}
+				<ul>
+					<input type="checkbox" bind:group={todoList} value={i} />
+					<label for="todo"  transition:fade
+						>{todo.description}
+					</label>
+				</ul>
+			{/each}
+			<!-- <h1>{description}</h1> -->
+			<Button mode="delete">Delete items</Button>
+		</form>
+	</div>
 </main>
 
 <style>
