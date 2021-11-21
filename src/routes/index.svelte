@@ -45,13 +45,20 @@
 			<Button on:click={checkButton}>Add to list</Button>
 		</div>
 	</div>
-	<form on:submit|preventDefault={del(todoList)}>
+	<!-- <form on:submit|preventDefault={del(todoList)}>
 		{#each toDoArr as todo (todo.uid)}
 			<ul>
 				<input type="checkbox"   />
 				<label for="todo">{todo.description} </label>
 			</ul>
-		{/each}
+		{/each} -->
+		<form on:submit|preventDefault={del(todoList)}>
+        {#each toDoArr as todo, i}
+            <ul>
+                <input type="checkbox" bind:group={todoList} value={i} />
+                <label for="todo">{todo.description} </label>
+            </ul>
+        {/each}
 		<h1>{description}</h1>
 		<button>delete item</button>
 	</form>
