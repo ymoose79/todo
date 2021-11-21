@@ -1,6 +1,7 @@
 <script>
 	import Button from '../UI/Button.svelte';
 
+
 	let uid = 1;
 
 	let description = '';
@@ -42,16 +43,10 @@
 			</form>
 		</div>
 		<div class="button">
-			<Button on:click={checkButton}>Add to list</Button>
+			<Button mode="confirm" on:click={checkButton}>Add to list</Button>
 		</div>
 	</div>
-	<!-- <form on:submit|preventDefault={del(todoList)}>
-		{#each toDoArr as todo (todo.uid)}
-			<ul>
-				<input type="checkbox"   />
-				<label for="todo">{todo.description} </label>
-			</ul>
-		{/each} -->
+	<div class="container">
 		<form on:submit|preventDefault={del(todoList)}>
         {#each toDoArr as todo, i}
             <ul>
@@ -62,6 +57,7 @@
 		<h1>{description}</h1>
 		<button>delete item</button>
 	</form>
+</div>
 </main>
 
 <style>
