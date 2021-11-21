@@ -36,13 +36,13 @@
 <main>
 	<h1 id="title">Todo List</h1>
 	<div class="container">
-		<div id="label">
+		<div id="left">
 			<form on:submit|preventDefault={checkButton}>
 				<label for="name" />
 				<input id="input-field" type="text" bind:value={description} placeholder="thing to do" />
 			</form>
 		</div>
-		<div class="button">
+		<div class="right">
 			<Button mode="confirm" on:click={checkButton}>Add to list</Button>
 		</div>
 	</div>
@@ -55,7 +55,7 @@
             </ul>
         {/each}
 		<h1>{description}</h1>
-		<button>delete item</button>
+		<Button mode="delete">Delete items</Button>
 	</form>
 </div>
 </main>
@@ -85,7 +85,7 @@
 		display: flex;
 		justify-content: center;
 	}
-	#label {
+	#left {
 		margin-right: 3rem;
 		height: 1rem;
 	}
