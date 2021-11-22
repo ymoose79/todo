@@ -1,9 +1,10 @@
 <script>
+  import { fade } from 'svelte/transition'
     export let mode = null;
 
 </script>
 <!-- HTML !-->
-<button class="{mode}" on:click><slot/></button>
+<button class="{mode}" transition:fade on:click><slot/></button>
 
 
 <style>
@@ -11,6 +12,7 @@
     z-index: 1;
   }
 .confirm {
+  transform: rotate(270deg);
   align-items: center;
   background-color: initial;
   background-image: linear-gradient(rgba(179, 132, 201, .84), rgba(57, 31, 91, .84) 50%);
@@ -48,7 +50,6 @@
   }
 }
 
-/* CSS */
 .delete {
   font-size: 16px;
   font-weight: 200;
@@ -62,6 +63,7 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+
 }
 
 .delete:after {
@@ -86,4 +88,11 @@
     padding: 13px 50px 13px;
   }
 }
+
+@media (min-width: 320px) and (max-width: 767px) {
+  .confirm {
+    transform: rotate(0deg);
+  }
+}
+
 </style>
