@@ -1,48 +1,19 @@
 <script>
 	import Button from '../UI/Button.svelte';
-	import { quintOut } from 'svelte/easing';
-	import { crossfade, fade } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
+	import { flip } from 'svelte/animate';
 
-	const [send, receive] = crossfade({
-		duration: (d) => Math.sqrt(d * 200),
 
-		fallback(node, params) {
-			const style = getComputedStyle(node);
-			const transform = style.transform === 'none' ? '' : style.transform;
-
-			return {
-				duration: 600,
-				easing: quintOut,
-				css: (t) => `
-					transform: ${transform} scale(${t});
-					opacity: ${t}
-				`
-			};
-		}
-	});
-
-	let uid = 1;
-
-	let description = '';
-	let toDoArr = [
-		{ id: uid++, description: 'get a job' },
-		{ id: uid++, description: 'mow the yard' },
-		{ id: uid++, description: 'wash the car' },
-		{ id: uid++, description: 'grocery' }
-	];
+	let toDo = '';
+	let toDoArr = ['get a job', 'mow the yard', 'wash the car', 'grocery'];
 	let todoList = [];
 
 	function checkButton() {
-		if (description === '') {
-			return;
+		if (toDo === ''){
+			return
 		}
-		const newTodo = {
-			id: uid++,
-			description: description
-		};
-		toDoArr = [newTodo, ...toDoArr];
-		console.log(toDoArr);
-		description = '';
+		toDoArr = [toDo, ...toDoArr];
+		toDo = '';
 	}
 
 	function del(todoItems) {
@@ -55,41 +26,38 @@
 <main>
 	<h1 id="title">Todo List</h1>
 	<div class="container">
-		<div id="left">
-			<form on:submit|preventDefault={checkButton}>
+		<div id="label" transition:fade>
+			<form transition:fade on:submit|preventDefault={checkButton}>
 				<label for="name" />
-				<input
-					id="input-field"
-					type="text"
-					bind:value={description}
-					placeholder="thing to do"
-				/>
+				<input id="input-field" type="text" bind:value={toDo} placeholder="thing to do" />
 			</form>
 		</div>
-		<div class="right">
-			<Button mode="confirm" on:click={checkButton}>Add to list</Button>
+		<div class="button">
+			<Button mode="confirm" on:click={checkButton}>Add</Button>
 		</div>
 	</div>
 	<div class="container">
-		<form on:submit|preventDefault={del(todoList)}>
-			{#each toDoArr as todo, i (todo.id)}
-				<ul>
-					<input type="checkbox" bind:group={todoList} value={i} />
-					<label for="todo"  transition:fade
-						>{todo.description}
-					</label>
-				</ul>
-			{/each}
-			<!-- <h1>{description}</h1> -->
-			<Button mode="delete">Delete items</Button>
-		</form>
-	</div>
+	<form on:submit|preventDefault={del(todoList)}>
+		{#each toDoArr as todo,i (todo)}
+			<ul out:fly={{x: -200, duration: 2000}} animate:flip>
+				<input type="checkbox" bind:group={todoList} value={i}  />
+				<label for="todo">{todo} </label>
+			</ul>
+		{/each}
+		<Button mode="delete">Delete checked Items</Button>
+	</form>
+</div>
 </main>
 
 <style>
 	main {
 		margin: 5rem 15rem;
 		font-size: 2em;
+		background-color: rgb(245, 244, 220);
+		width: 65vw;
+		/* height: 100vh; */
+		margin: 0 auto;
+		
 	}
 	#title {
 		text-align: center;
@@ -99,20 +67,22 @@
 		border-radius: 1.5rem;
 		padding: 1rem;
 		width: 18rem;
-		border: 0.125rem solid rgba(179, 132, 201, 0.84);
+		border: .125rem solid rgba(179, 132, 201, .84);
 		-webkit-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1), 0 0 16px rgba(0, 0, 0, 0.1);
 		-moz-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1), 0 0 16px rgba(0, 0, 0, 0.1);
 		box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1), 0 0 16px rgba(0, 0, 0, 0.1);
 		padding: 15px;
 		background: rgba(255, 255, 255, 0.5);
 		margin: 0 0 10px 0;
+
 	}
 	.container {
 		display: flex;
 		justify-content: center;
 	}
-	#left {
+	#label {
 		margin-right: 3rem;
 		height: 1rem;
+		
 	}
 </style>

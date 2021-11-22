@@ -7,6 +7,9 @@
 
 
 <style>
+  button{
+    z-index: 1;
+  }
 .confirm {
   align-items: center;
   background-color: initial;
