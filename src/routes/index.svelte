@@ -2,18 +2,27 @@
 	import Button from '../UI/Button.svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
+	// import Modal from 'svelte-simple-modal';
+	// import Content from './Content.svelte';
 
 	let toDo = '';
 	let toDoArr = ['get a job', 'mow the yard', 'wash the car', 'grocery'];
 	let todoList = [];
+	let isValid = '';
 
 	function checkButton() {
 		if (toDo === '') {
 			return;
 		}
-		
-		toDoArr = [toDo, ...toDoArr];
-		toDo = '';
+		isValid = toDoArr.includes(toDo);
+
+		if (isValid === false) {
+			console.log('a')
+			let todoLC = toDo.toLowerCase(toDo);
+			toDoArr = [todoLC, ...toDoArr];
+			toDo = '';
+			isValid = '';
+		} 
 	}
 
 	function del(todoItems) {
@@ -25,6 +34,9 @@
 
 <main>
 	<h1 id="title">Todo List</h1>
+	<!-- {#if isValid}
+	<Modal/>
+	{/if} -->
 	<div class="container--input">
 		<div id="input-label" transition:fade>
 			<form transition:fade on:submit|preventDefault={checkButton}>
@@ -57,7 +69,7 @@
 		background-color: rgb(245, 244, 220);
 		width: 65vw;
 		margin: 0 auto;
-		min-height: 55vh;
+		min-height: 65vh;
 	}
 	#title {
 		text-align: center;
@@ -101,57 +113,57 @@
 		padding-right: 4rem;
 	}
 
-/* ---------------------------------- 4k */
-@media (min-width: 2500px) {
-  main {
-    width: 50vw;
-  }
-  .container-delete {
-		grid-template-columns: 22vw auto;
+	/* ---------------------------------- 4k */
+	@media (min-width: 2500px) {
+		main {
+			width: 50vw;
+		}
+		.container-delete {
+			grid-template-columns: 22vw auto;
+		}
 	}
-}
 
-/* ---------------------------------- Tablet =< */
-@media (max-width: 768px) {
-	#input-field {
-		width: 14rem;
+	/* ---------------------------------- Tablet =< */
+	@media (max-width: 768px) {
+		#input-field {
+			width: 14rem;
+		}
 	}
-}
 
-/* ---------------------------------- small phones */
+	/* ---------------------------------- small phones */
 
-@media (min-width: 320px) and (max-width: 767px) {
-	main {
-		width: 100vw;
-		height: 100vh;
-		padding-top: 2rem;
+	@media (min-width: 320px) and (max-width: 767px) {
+		main {
+			width: 100vw;
+			min-height: 100vh;
+			height: 100%;
+			padding-top: 2rem;
+		}
+		#title {
+			margin: 1rem 1rem 2rem;
+		}
+		.container--input {
+			flex-direction: column;
+			padding-bottom: 1.5rem;
+			border-bottom: 0.25rem double rgba(124, 91, 139, 0.84);
+		}
+		.button {
+			align-self: center;
+		}
+		#input-label {
+			align-self: center;
+			margin: 0 0 3rem;
+		}
+		.container-delete {
+			display: flex;
+			flex-direction: column-reverse;
+			justify-content: center;
+		}
+		.delete-left {
+			margin-top: 0;
+			align-self: center;
+			padding-right: 0;
+			padding-bottom: 3rem;
+		}
 	}
-	#title {
-		margin: 1rem 1rem 2rem;
-	}
-	.container--input {
-		flex-direction: column;
-		padding-bottom: 1.5rem;
-		border-bottom: 0.25rem double rgba(124, 91, 139, 0.84);
-	}
-	.button {
-		align-self: center;
-	}
-	#input-label{
-		align-self: center;
-		margin: 0 0 3rem;
-	}
-	.container-delete {
-		display: flex;
-		flex-direction: column-reverse;
-		justify-content: center;
-	}
-	.delete-left {
-		margin-top: 0;
-		align-self: center;
-		padding-right: 0;
-	}
-	
-}
-
 </style>
