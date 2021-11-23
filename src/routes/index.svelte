@@ -11,6 +11,7 @@
 		if (toDo === '') {
 			return;
 		}
+		
 		toDoArr = [toDo, ...toDoArr];
 		toDo = '';
 	}
