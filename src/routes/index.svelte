@@ -1,9 +1,10 @@
 <script>
+
 	import Button from '../UI/Button.svelte';
+	import Modal from '../UI/Modal.svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
-	// import Modal from 'svelte-simple-modal';
-	// import Content from './Content.svelte';
+
 
 	let toDo = '';
 	let toDoArr = ['get a job', 'mow the yard', 'wash the car', 'grocery'];
@@ -30,13 +31,17 @@
 		toDoArr = toDoArr.filter((value, i) => todoItems.indexOf(i) == -1);
 		todoList = [];
 	}
+	function closeModal(){
+		isValid = '';
+	}
 </script>
 
 <main>
 	<h1 id="title">Todo List</h1>
-	<!-- {#if isValid}
-	<Modal/>
-	{/if} -->
+	{#if isValid}
+	<Modal title="Item already on the List" on:click={closeModal}>
+	</Modal>
+	{/if}
 	<div class="container--input">
 		<div id="input-label" transition:fade>
 			<form transition:fade on:submit|preventDefault={checkButton}>
@@ -76,6 +81,7 @@
 		margin: 5rem 5rem 3rem;
 		color: rgba(49, 7, 69, 0.84);
 		border-bottom: 0.25rem double #f0b01d;
+		padding-top: 3rem;
 	}
 	.container--input {
 		margin-bottom: 1rem;
@@ -98,6 +104,7 @@
 	.container-delete {
 		display: grid;
 		grid-template-columns: 27vw auto;
+		margin-top: 2rem;
 	}
 	#input-label {
 		margin-right: 3rem;
@@ -106,6 +113,8 @@
 	ul {
 		text-align: left;
 		padding: 0 2rem;
+		margin: .25rem 0 1rem;
+		color: #5a5959;
 	}
 	.delete-left {
 		margin-top: 5rem;
@@ -134,8 +143,8 @@
 
 	@media (min-width: 320px) and (max-width: 767px) {
 		main {
-			width: 100vw;
-			min-height: 100vh;
+			width: 90vw;
+			/* min-height: 100vh; */
 			height: 100%;
 			padding-top: 2rem;
 		}
